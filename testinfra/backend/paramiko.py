@@ -40,7 +40,7 @@ class ParamikoBackend(base.BaseBackend):
 
     def __init__(
             self, hostspec, ssh_config=None, ssh_identity_file=None,
-            timeout=10, *args, **kwargs):
+            timeout=5, *args, **kwargs):
         self.host = self.parse_hostspec(hostspec)
         self.ssh_config = ssh_config
         self.ssh_identity_file = ssh_identity_file
@@ -76,6 +76,8 @@ class ParamikoBackend(base.BaseBackend):
             "port": int(self.host.port) if self.host.port else 22,
             "username": self.host.user,
             "timeout": self.timeout,
+            "auth_timeout": self.timeout,
+            "banner_timeout": self.timeout,
         }
         if self.ssh_config:
             with open(self.ssh_config) as f:
