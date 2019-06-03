@@ -116,12 +116,8 @@ class ParamikoBackend(base.BaseBackend):
         try:
             rc, stdout, stderr = self._exec_command(command)
         except paramiko.ssh_exception.SSHException:
-            if not self.client.get_transport().is_active():
-                # try to reinit connection (once)
-                del self.client
-                rc, stdout, stderr = self._exec_command(command)
-            else:
-                raise
+            self.client.close()
+            raise
 
         # Close connection after we're done
         self.client.close()
