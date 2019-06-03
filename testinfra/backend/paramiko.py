@@ -123,4 +123,8 @@ class ParamikoBackend(base.BaseBackend):
             else:
                 raise
 
+        # Close connection after we're done
+        self.client.close()
+        del self.client
+
         return self.result(rc, command, stdout, stderr)
